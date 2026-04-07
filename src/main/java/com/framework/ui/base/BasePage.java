@@ -242,6 +242,127 @@ protected WebElement findElement(By locator) {
     
     
     
+    
+    
+    
+    // ── Wait helpers ───────────────────────────────────────────────────────
+    
+    protected void waitForVisibility(By locator) {
+    	
+        WaitUtils.waitForVisibilityOfElement(locator);
+        
+    }
+    
+    
+ 
+    protected void waitForVisibility(By locator, int seconds) {
+    	
+        WaitUtils.waitForVisibility(locator, seconds);
+        
+    }
+    
+    
+    
+ 
+    protected void waitForClickability(By locator) {
+    	
+        WaitUtils.waitForClickability(locator);
+        
+    }
+ 
+    
+    
+    
+    protected void waitForTextToBe(By locator, String text) {
+    	
+        WaitUtils.waitForTextToBe(locator, text);
+        
+    }
+ 
+    
+    
+    
+    protected void waitForUrlToContain(String fragment) {
+    	
+        WaitUtils.waitForUrlToContain(fragment);
+        
+    }
+ 
+    
+    
+    
+    protected void waitForInvisibility(By locator) {
+    	
+        WaitUtils.waitForInvisibility(locator);
+        
+    }
+    
+    
+    
+    
+ // ── Scroll helpers ─────────────────────────────────────────────────────
+    
+    
+    protected void scrollToElement(By locator) {
+    	
+        LogManager.debug("Scrolling to element: " + locator);
+        
+        BrowserUtils.scrollToElement(findElement(locator));
+        
+    }
+    
+    
+ 
+    protected void scrollToBottom() {
+    	
+        LogManager.debug("Scrolling to bottom of page");
+        
+        BrowserUtils.scrollToBottom();
+        
+    }
+    
+    
+ 
+    protected void scrollToTop() {
+    	
+        LogManager.debug("Scrolling to top of page");
+        
+        BrowserUtils.scrollUp();
+        
+    }
+    
+    
+ // ── Hover ──────────────────────────────────────────────────────────────
+    
+    protected void hoverOver(By locator) {
+    	
+        LogManager.debug("Hovering over: " + locator);
+        
+        BrowserUtils.hoverOverElement(findElement(locator));
+        
+   
+    }
+    
+    
+    
+ // ── Navigation ─────────────────────────────────────────────────────────
+    
+    protected String getCurrentUrl() {
+    	
+        return BrowserUtils.getCurrentUrl();
+          
+    }
+ 
+    
+    
+    
+    protected String getPageTitle() {
+    	
+        return BrowserUtils.getPageTitle();
+        
+    }
+    
+ 
 
 }
 

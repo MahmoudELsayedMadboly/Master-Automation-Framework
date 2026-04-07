@@ -44,7 +44,7 @@ public class BrowserUtils {
 
 
 
-	public static void scrollUp(WebElement element) {
+	public static void scrollUp() {
 
 
 		LogManager.debug("Scrolling to Top");
@@ -106,17 +106,17 @@ public class BrowserUtils {
 	// ──handle Alerts ─────────────────────────────────────────────────────────────
 
 
-public static String getAlertText() {
-		
+	public static String getAlertText() {
+
 		WaitUtils.waitForAlert();
-		
+
 		return driver().switchTo().alert().getText();
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 	public static void acceptAlert() {
 
 		WaitUtils.waitForAlert();
@@ -128,8 +128,8 @@ public static String getAlertText() {
 		driver().switchTo().alert().accept();
 
 	}
-	
-	
+
+
 
 	public static void dismissAlert() {
 
@@ -142,142 +142,164 @@ public static String getAlertText() {
 		driver().switchTo().alert().dismiss();
 
 	}
-	
-	
-	
-	public static void acceptAlertWithText(String text) {
-		
-	    WaitUtils.waitForAlert();
-	    
-	    LogManager.info("Sending text to alert: " + text);
-	    
-	    driver().switchTo().alert().sendKeys(text);
-	    
-	    driver().switchTo().alert().accept();
-	    
-	}
-	
-	
-	
-	public static void dismissAlertWithText(String text) {
-		
-	    WaitUtils.waitForAlert();
-	    
-	    LogManager.info("Sending text to alert then dismissing: " + text);
-	    
-	    driver().switchTo().alert().sendKeys(text);
-	    
-	    driver().switchTo().alert().dismiss();
-	    
-	}
-	
-	
-	
-	
 
-	
+
+
+	public static void acceptAlertWithText(String text) {
+
+		WaitUtils.waitForAlert();
+
+		LogManager.info("Sending text to alert: " + text);
+
+		driver().switchTo().alert().sendKeys(text);
+
+		driver().switchTo().alert().accept();
+
+	}
+
+
+
+	public static void dismissAlertWithText(String text) {
+
+		WaitUtils.waitForAlert();
+
+		LogManager.info("Sending text to alert then dismissing: " + text);
+
+		driver().switchTo().alert().sendKeys(text);
+
+		driver().switchTo().alert().dismiss();
+
+	}
+
+
+
+
+
+
 	// ──handle Windows & Tabs─────────────────────────────────────────────────────
 
-	
-	public static void switchToNewWindow(String originalHandle) {
-		
-        Set<String> handles = driver().getWindowHandles();
-        
-        for (String handle : handles) {
-        	
-            if (!handle.equals(originalHandle)) {
-            	
-                driver().switchTo().window(handle);
-                
-                LogManager.info("Switched to new window: " + handle);
-                
-                return;
-                
-            }
-        }
-        
-        throw new RuntimeException("No new window found to switch to");
-        
-    }
-	
- 
-    public static void switchToWindow(String handle) {
-    	
-        driver().switchTo().window(handle);
-        
-    }
-    
- 
-    public static String getCurrentWindowHandle() {
-    	
-        return driver().getWindowHandle();
-        
-    }
- 
-    public static void closeCurrentWindowAndSwitch(String handle) {
-    	
-        driver().close();
-        
-        driver().switchTo().window(handle);
-        
-    }
 
-    
-    
- // ──handle Frames ─────────────────────────────────────────────────────────────
-    
-    public static void switchToFrame(WebElement frame) {
-    	
-        driver().switchTo().frame(frame);
-        
-    }
-    
- 
-    public static void switchToDefaultContent() {
-    	
-        driver().switchTo().defaultContent();
-        
-    }
-    
-    
-    
-    
- // ── Actions ────────────────────────────────────────────────────────────
-    
-    public static void hoverOverElement(WebElement element) {
-    	
-        new Actions(driver()).moveToElement(element).perform();
-        
-    }
- 
-    public static void dragAndDrop(WebElement source, WebElement target) {
-    	
-        new Actions(driver()).dragAndDrop(source, target).perform();
-        
-    }
- 
-    public static void doubleClick(WebElement element) {
-    	
-        new Actions(driver()).doubleClick(element).perform();
-        
-    }
- 
-    public static void rightClick(WebElement element) {
-    	
-        new Actions(driver()).contextClick(element).perform();
-        
-    }
-    
-    
-    public static void click(WebElement element) {
-    	
-    	new Actions(driver()).click().perform();
-    	
-    }
-    
-    
-    
- 
+	public static void switchToNewWindow(String originalHandle) {
+
+		Set<String> handles = driver().getWindowHandles();
+
+		for (String handle : handles) {
+
+			if (!handle.equals(originalHandle)) {
+
+				driver().switchTo().window(handle);
+
+				LogManager.info("Switched to new window: " + handle);
+
+				return;
+
+			}
+		}
+
+		throw new RuntimeException("No new window found to switch to");
+
+	}
+
+
+	public static void switchToWindow(String handle) {
+
+		driver().switchTo().window(handle);
+
+	}
+
+
+	public static String getCurrentWindowHandle() {
+
+		return driver().getWindowHandle();
+
+	}
+
+	public static void closeCurrentWindowAndSwitch(String handle) {
+
+		driver().close();
+
+		driver().switchTo().window(handle);
+
+	}
+
+
+
+	// ──handle Frames ─────────────────────────────────────────────────────────────
+
+	public static void switchToFrame(WebElement frame) {
+
+		driver().switchTo().frame(frame);
+
+	}
+
+
+	public static void switchToDefaultContent() {
+
+		driver().switchTo().defaultContent();
+
+	}
+
+
+
+
+	// ── Actions ────────────────────────────────────────────────────────────
+
+	public static void hoverOverElement(WebElement element) {
+
+		new Actions(driver()).moveToElement(element).perform();
+
+	}
+
+	public static void dragAndDrop(WebElement source, WebElement target) {
+
+		new Actions(driver()).dragAndDrop(source, target).perform();
+
+	}
+
+	public static void doubleClick(WebElement element) {
+
+		new Actions(driver()).doubleClick(element).perform();
+
+	}
+
+	public static void rightClick(WebElement element) {
+
+		new Actions(driver()).contextClick(element).perform();
+
+	}
+
+
+	public static void click(WebElement element) {
+
+		new Actions(driver()).click().perform();
+
+	}
+
+
+
+	// ── Get currentUrl & page Title ────────────────────────────────────────────────────────────
+
+
+
+	public static String getCurrentUrl() {
+
+		return driver().getCurrentUrl();
+
+	}
+
+
+
+
+
+	public static String getPageTitle() {
+
+		return driver().getTitle();
+
+	}
+
+
+
+
 }
 
 
