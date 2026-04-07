@@ -1,6 +1,7 @@
 package com.framework.ui.base;
 
 import java.sql.DriverManager;
+import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -61,41 +62,97 @@ public class BaseTest {
 
 			headless = ConfigManager.getString("");
 
+
 		}else {
 
 			headless = headlessParam;
 
 		}
-		
-		
-		
-		//log what is about to happen
-	    LogManager.info("=== Test Setup — Browser: " + browser + " | Headless: " + headless + " ===");
-	    
-	    
-	    // define driver
-	    
-	    WebDriver driver = DriverFactory.createDriver(browser, Boolean.parseBoolean(headless));
 
-	    
-	    //confiure browser
-	    
-	    driver.manage().window().maximize();
-	    
-	    
-	    driver.get(ConfigManager.getString(""));
+
+
+		//log what is about to happen
+		LogManager.info("=== Test Setup — Browser: " + browser + " | Headless: " + headless + " ===");
+
+
+		// define driver
+
+		WebDriver driver = DriverFactory.createDriver(browser, Boolean.parseBoolean(headless));
+
+		com.framework.core.driver.DriverManager.getDriver();
+
+
+		//configure browser
+
+		driver.manage().window().maximize();
+
+		String time = "";
+
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(ConfigManager.getInt(time)));
+
+		String baseUrl = ConfigManager.getString("");
+
+		LogManager.info("Navigating to base URL: " + baseUrl);
+
+
+		driver.get(baseUrl);
 
 
 	}
 
 
 
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void closeBrowser() {
 
+		LogManager.info("=== Test Teardown ===");
 
+
+		//driver is created & stored in the setUp method so here just will retrived the already stored driver in "DriverManager"
+		WebDriver driver = com.framework.core.driver.DriverManager.getDriver();
+		
+		if(driver != null) {
+			
+			driver.quit();
+			
+			LogManager.info("Browser closed successfully");
+			
+		}
+		
+		com.framework.core.driver.DriverManager.removeDriver();
 
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
