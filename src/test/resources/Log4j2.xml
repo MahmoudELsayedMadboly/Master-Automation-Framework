@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+ 
+    <Appenders>
+ 
+        <!-- Console output — visible during local runs in Eclipse console -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+ 
+        <!-- Rolling file — keeps last 10 log files, max 5MB each -->
+        <RollingFile name="File"
+                     fileName="target/logs/framework.log"
+                     filePattern="target/logs/framework-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5MB"/>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+ 
+    </Appenders>
+ 
+    <Loggers>
+ 
+        <!-- Framework logger — DEBUG level for detailed framework output -->
+        <Logger name="com.framework" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+ 
+        <!-- Root logger — INFO level for everything else -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+ 
+    </Loggers>
+ 
+</Configuration>

@@ -1,8 +1,17 @@
 package com.framework.ui.utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -297,6 +306,41 @@ public class BrowserUtils {
 
 	}
 
+	
+	
+	// ── taking screenshot ────────────────────────────────────────────────────────────
+	
+	
+	public static String takeScreenshot(String folderPath, String testName) {
+		
+	    String timestamp = 	LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+	    
+	    String fileName  = testName + "_" + timestamp + ".png";
+	    
+	    String fullPath  = folderPath + File.separator + fileName;
+	    
+
+	    try {
+	    	
+	        Files.createDirectories(Paths.get(folderPath));
+	        
+	        File src = ((TakesScreenshot) driver()).getScreenshotAs(OutputType.FILE);
+	        
+	        Files.copy(src.toPath(), Paths.get(fullPath));
+	        
+	        LogManager.info("Screenshot saved: " + fullPath);
+	        
+	    } catch (IOException e) 
+	    
+	    {
+	    	
+	        LogManager.error("Failed to save screenshot: " + e.getMessage(), e);
+	        
+	    }
+
+	    return fullPath;
+	    
+	}
 
 
 

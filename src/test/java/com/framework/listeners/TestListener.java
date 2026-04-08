@@ -27,43 +27,32 @@ public class TestListener implements ITestListener{
 	// ── Private helpers ────────────────────────────────────────────────────
 	 
     private String getTestName(ITestResult result) {
+    	
         return result.getTestClass().getRealClass().getSimpleName()
+        		
             + "." + result.getMethod().getMethodName();
+        
     }
  
     private void takeFailureScreenshot(ITestResult result) {
+    	
         try {
+        	
             String screenshotFolder = System.getProperty("user.dir")
                 + "/target/screenshots";
+            
             String testName = result.getMethod().getMethodName();
+            
             String path = BrowserUtils.takeScreenshot(screenshotFolder, testName);
+            
             LogManager.info("  Screenshot: " + path);
+            
         } catch (Exception e) {
+        	
             LogManager.warn("Could not take screenshot: " + e.getMessage());
+            
         }
     }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -77,19 +66,58 @@ public class TestListener implements ITestListener{
 	  }
 
 	
-	  
+	@Override
 	public void onTestSuccess(ITestResult result) {
-	    // not implemented
+	    
+		LogManager.info("✔ PASSED:  " + getTestName(result));
+		
 	  }
 
 	  
-	  
+	@Override
 	public void onTestFailure(ITestResult result) {
-	    // not implemented
+	    
+		
+		LogManager.error("✘ FAILED:  " + getTestName(result));
+		
+        LogManager.error("  Reason:  " + result.getThrowable().getMessage());
+        
+     // take screenshot automatically on failure
+        takeFailureScreenshot(result);
+		
 	  }
 
-	  
+	@Override
 	public void onTestSkipped(ITestResult result) {
-	    // not implemented
+	    
+
+		LogManager.warn("⊘ SKIPPED: " + getTestName(result));
+		
 	  }
+	
+	
+	@Override
+    public void onFinish(ITestContext context) {
+		
+        int total   = context.getAllTestMethods().length;
+        
+        int passed  = context.getPassedTests().size();
+        
+        int failed  = context.getFailedTests().size();
+        
+        int skipped = context.getSkippedTests().size();
+        
+ 
+        LogManager.info("═══════════════════════════════════════");
+        
+        LogManager.info("Suite finished: " + context.getName());
+        
+        LogManager.info("Total: "   + total   +
+                        " | Passed: "  + passed  +
+                        " | Failed: "  + failed  +
+                        " | Skipped: " + skipped);
+        
+        LogManager.info("═══════════════════════════════════════");
+        
+    }
 }
