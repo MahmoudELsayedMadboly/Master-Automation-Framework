@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Automation Framework — Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0b0f1a;
+    --surface:   #111827;
+    --surface2:  #1a2235;
+    --border:    #1e2d45;
+    --accent:    #3b82f6;
+
+    --purple-bg:  #1a1040;
+    --purple-bd:  #6d28d9;
+    --purple-tx:  #c4b5fd;
+    --purple-sub: #7c3aed;
+
+    --teal-bg:   #042f2e;
+    --teal-bd:   #0d9488;
+    --teal-tx:   #5eead4;
+    --teal-sub:  #0f766e;
+
+    --amber-bg:  #1c1003;
+    --amber-bd:  #d97706;
+    --amber-tx:  #fcd34d;
+    --amber-sub: #b45309;
+
+    --coral-bg:  #1f0a06;
+    --coral-bd:  #dc4f2f;
+    --coral-tx:  #fca5a5;
+    --coral-sub: #b91c1c;
+
+    --gray-bg:   #111827;
+    --gray-bd:   #374151;
+    --gray-tx:   #9ca3af;
+    --gray-sub:  #4b5563;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 48px 40px;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(59,130,246,0.3);
+    background: rgba(59,130,246,0.08);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Layer ── */
+  .layer {
+    margin-bottom: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .layer-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .layer-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .layer-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .layer-desc {
+    font-size: 11px;
+    color: #475569;
+    margin-left: auto;
+    font-weight: 300;
+  }
+
+  .layer-body {
+    padding: 16px 20px;
+    background: var(--surface);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ── Card ── */
+  .card {
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 12px 16px;
+    min-width: 140px;
+    flex: 1;
+    position: relative;
+  }
+
+  .card-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    font-weight: 300;
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.6;
+  }
+
+  /* ── Color themes ── */
+  .purple .card  { background: var(--purple-bg); border-color: var(--purple-bd); }
+  .purple .card-name  { color: var(--purple-tx); }
+  .purple .card-desc  { color: var(--purple-tx); }
+  .purple .card-tag   { background: rgba(109,40,217,0.2); color: var(--purple-tx); }
+  .purple .layer-dot  { background: var(--purple-sub); }
+  .purple .layer-title { color: var(--purple-tx); }
+
+  .teal .card    { background: var(--teal-bg); border-color: var(--teal-bd); }
+  .teal .card-name  { color: var(--teal-tx); }
+  .teal .card-desc  { color: var(--teal-tx); }
+  .teal .card-tag   { background: rgba(13,148,136,0.2); color: var(--teal-tx); }
+  .teal .layer-dot  { background: var(--teal-sub); }
+  .teal .layer-title { color: var(--teal-tx); }
+
+  .amber .card   { background: var(--amber-bg); border-color: var(--amber-bd); }
+  .amber .card-name  { color: var(--amber-tx); }
+  .amber .card-desc  { color: var(--amber-tx); }
+  .amber .card-tag   { background: rgba(217,119,6,0.2); color: var(--amber-tx); }
+  .amber .layer-dot  { background: var(--amber-sub); }
+  .amber .layer-title { color: var(--amber-tx); }
+
+  .coral .card   { background: var(--coral-bg); border-color: var(--coral-bd); }
+  .coral .card-name  { color: var(--coral-tx); }
+  .coral .card-desc  { color: var(--coral-tx); }
+  .coral .card-tag   { background: rgba(220,79,47,0.2); color: var(--coral-tx); }
+  .coral .layer-dot  { background: var(--coral-sub); }
+  .coral .layer-title { color: var(--coral-tx); }
+
+  .gray .card    { background: var(--gray-bg); border-color: var(--gray-bd); }
+  .gray .card-name  { color: var(--gray-tx); }
+  .gray .card-desc  { color: var(--gray-tx); }
+  .gray .card-tag   { background: rgba(55,65,81,0.4); color: var(--gray-tx); }
+  .gray .layer-dot  { background: var(--gray-sub); }
+  .gray .layer-title { color: var(--gray-tx); }
+
+  /* ── Arrow connector ── */
+  .connector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+    position: relative;
+    margin: -4px 0;
+    z-index: 2;
+  }
+  .connector::before {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--border), transparent);
+  }
+  .arrow-down {
+    position: absolute;
+    color: #334155;
+    font-size: 14px;
+    bottom: -2px;
+  }
+
+  /* ── Tech stack pills ── */
+  .tech-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+    justify-content: center;
+  }
+
+  .tech-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: #64748b;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #1e293b;
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">architecture overview</div>
+    <h1>Master Automation Framework</h1>
+    <p>Unified Selenium WebDriver + REST Assured · Java 21 · TestNG · Maven</p>
+  </div>
+
+  <!-- Test Layer -->
+  <div class="layer coral">
+    <div class="layer-header">
+      <div class="layer-dot"></div>
+      <span class="layer-title">Test Layer</span>
+      <span class="layer-desc">src/test/java/com/framework</span>
+    </div>
+    <div class="layer-body">
+      <div class="card">
+        <span class="card-tag">abstract</span>
+        <div class="card-name">BaseTest</div>
+        <div class="card-desc">@BeforeMethod / @AfterMethod<br>driver lifecycle management</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">listener</span>
+        <div class="card-name">TestListener</div>
+        <div class="card-desc">pass / fail / skip hooks<br>auto screenshot on failure</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">xml</span>
+        <div class="card-name">ui-suite.xml</div>
+        <div class="card-desc">smoke + regression suites<br>browser parameters</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">xml</span>
+        <div class="card-name">api-suite.xml</div>
+        <div class="card-desc">API smoke + regression<br>no browser parameters</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><span class="arrow-down">▼</span></div>
+
+  <!-- UI Layer -->
+  <div class="layer teal">
+    <div class="layer-header">
+      <div class="layer-dot"></div>
+      <span class="layer-title">UI Layer — Selenium WebDriver</span>
+      <span class="layer-desc">src/main/java/com/framework/ui</span>
+    </div>
+    <div class="layer-body">
+      <div class="card">
+        <span class="card-tag">abstract</span>
+        <div class="card-name">BasePage</div>
+        <div class="card-desc">click / type / getText<br>scroll / hover / select</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">utils</span>
+        <div class="card-name">WaitUtils</div>
+        <div class="card-desc">explicit waits only<br>visibility / clickability</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">utils</span>
+        <div class="card-name">BrowserUtils</div>
+        <div class="card-desc">scroll / JS executor<br>alerts / windows / screenshots</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">pages</span>
+        <div class="card-name">pages/</div>
+        <div class="card-desc">consumer project fills this<br>LoginPage, HomePage ...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><span class="arrow-down">▼</span></div>
+
+  <!-- API Layer -->
+  <div class="layer amber">
+    <div class="layer-header">
+      <div class="layer-dot"></div>
+      <span class="layer-title">API Layer — REST Assured</span>
+      <span class="layer-desc">src/main/java/com/framework/api</span>
+    </div>
+    <div class="layer-body">
+      <div class="card">
+        <span class="card-tag">abstract</span>
+        <div class="card-name">BaseApi</div>
+        <div class="card-desc">RequestSpecification setup<br>base URI / headers / logging</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">utils</span>
+        <div class="card-name">ApiUtils</div>
+        <div class="card-desc">status code / extract values<br>deserialize / response time</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">services</span>
+        <div class="card-name">services/</div>
+        <div class="card-desc">consumer project fills this<br>UserService, ProductService ...</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">models</span>
+        <div class="card-name">models/</div>
+        <div class="card-desc">request / response POJOs<br>Jackson serialization</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><span class="arrow-down">▼</span></div>
+
+  <!-- Core Layer -->
+  <div class="layer purple">
+    <div class="layer-header">
+      <div class="layer-dot"></div>
+      <span class="layer-title">Core Layer — Foundation</span>
+      <span class="layer-desc">src/main/java/com/framework/core</span>
+    </div>
+    <div class="layer-body">
+      <div class="card">
+        <span class="card-tag">driver</span>
+        <div class="card-name">DriverFactory</div>
+        <div class="card-desc">creates browser instances<br>Chrome / Firefox / Safari</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">driver</span>
+        <div class="card-name">DriverManager</div>
+        <div class="card-desc">ThreadLocal&lt;WebDriver&gt;<br>thread-safe storage</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">config</span>
+        <div class="card-name">ConfigManager</div>
+        <div class="card-desc">reads .properties files<br>portable paths — any OS</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">logging</span>
+        <div class="card-name">LogManager</div>
+        <div class="card-desc">Log4j2 wrapper<br>single entry point</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">interface</span>
+        <div class="card-name">IReporter</div>
+        <div class="card-desc">pluggable reporting contract<br>Extent / Allure ready</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><span class="arrow-down">▼</span></div>
+
+  <!-- Config Layer -->
+  <div class="layer gray">
+    <div class="layer-header">
+      <div class="layer-dot"></div>
+      <span class="layer-title">Configuration</span>
+      <span class="layer-desc">src/test/resources</span>
+    </div>
+    <div class="layer-body">
+      <div class="card">
+        <span class="card-tag">properties</span>
+        <div class="card-name">config.properties</div>
+        <div class="card-desc">browser · base URL · timeouts</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">properties</span>
+        <div class="card-name">api.properties</div>
+        <div class="card-desc">API base URL · timeout</div>
+      </div>
+      <div class="card">
+        <span class="card-tag">xml</span>
+        <div class="card-name">log4j2.xml</div>
+        <div class="card-desc">console + rolling file logs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  <div class="tech-row">
+    <span class="tech-pill">Java 21</span>
+    <span class="tech-pill">Maven</span>
+    <span class="tech-pill">Selenium 4.33</span>
+    <span class="tech-pill">REST Assured 5.5</span>
+    <span class="tech-pill">TestNG 7.11</span>
+    <span class="tech-pill">WebDriverManager 6.1</span>
+    <span class="tech-pill">Log4j2 2.24</span>
+    <span class="tech-pill">Jackson 2.19</span>
+    <span class="tech-pill">Apache POI 5.4</span>
+  </div>
+
+  <div class="footer">github.com/MahmoudELsayedMadboly/Master-Automation-Framework</div>
+
+</div>
+</body>
+</html>
