@@ -1,0 +1,38 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="API Automation Suite" verbose="1" thread-count="1" parallel="none">
+
+    <!-- ============================================================ -->
+    <!-- Listener — handles logging automatically                     -->
+    <!-- ============================================================ -->
+    <listeners>
+        <listener class-name="com.framework.listeners.TestListener"/>
+    </listeners>
+
+    <!-- ============================================================ -->
+    <!-- Test groups                                                  -->
+    <!-- ============================================================ -->
+
+    <test name="Smoke API Tests">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.framework.tests.api"/>
+        </packages>
+    </test>
+
+    <test name="Regression API Tests">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.framework.tests.api"/>
+        </packages>
+    </test>
+
+</suite>

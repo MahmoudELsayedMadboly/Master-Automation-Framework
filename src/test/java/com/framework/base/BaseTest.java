@@ -1,4 +1,4 @@
-package com.framework.ui.base;
+package com.framework.base;
 
 import java.sql.DriverManager;
 import java.time.Duration;
