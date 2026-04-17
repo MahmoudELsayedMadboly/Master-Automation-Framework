@@ -45,7 +45,7 @@ public class BaseTest {
 
 		if(browserParam.isEmpty()) {
 
-			browser = ConfigManager.getString("");
+			browser = ConfigManager.getString("browser_1");
 
 		}else {
 
@@ -60,7 +60,7 @@ public class BaseTest {
 
 		if(headlessParam.isEmpty()) {
 
-			headless = ConfigManager.getString("");
+			headless = ConfigManager.getString("is.headless");
 
 
 		}else {
@@ -86,11 +86,11 @@ public class BaseTest {
 
 		driver.manage().window().maximize();
 
-		String time = "";
+		//String time = "";
 
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(ConfigManager.getInt(time)));
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(ConfigManager.getInt("default.Time")));
 
-		String baseUrl = ConfigManager.getString("");
+		String baseUrl = ConfigManager.getString("base.Url");
 
 		LogManager.info("Navigating to base URL: " + baseUrl);
 

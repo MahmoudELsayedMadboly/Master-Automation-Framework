@@ -51,7 +51,7 @@ public class ConfigManager {
      
     public static int getInt(String key) {
     	
-        return Integer.parseInt(key);
+        return Integer.parseInt(getString(key));
         
     }
     
@@ -62,7 +62,7 @@ public class ConfigManager {
      
     public static boolean getBoolean(String key) {
     	
-        return Boolean.parseBoolean(key);
+        return Boolean.parseBoolean(getString(key));
         
     }
 	
